@@ -6,12 +6,50 @@ const Navbar = () => {
     <>
       <li>
         <NavLink
-          to={"/home"}
+          to={"/"}
           className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
+            isPending ? "pending" : isActive ? "text-neutral scale-150 border-b-2 border-neutral" : ""
           }
         >
           Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to={"/tasks"}
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-neutral scale-150 border-b-2 border-neutral" : ""
+          }
+        >
+          Tasks
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to={"/calender"}
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-neutral scale-150 border-b-2 border-neutral" : ""
+          }
+        >
+          Calender
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to={"/projects"}
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-neutral scale-150 border-b-2 border-neutral" : ""
+          }
+        >
+          Projects
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to={"/sign-in"}
+          className='bg-neutral rounded-md'
+        >
+          Sign In
         </NavLink>
       </li>
     </>
@@ -47,7 +85,7 @@ const Navbar = () => {
               </div>
               <Link className="flex-1 px-2 mx-2">ManageMe</Link>
               <div className="flex-none hidden lg:block">
-                <ul className="menu menu-horizontal">
+                <ul className="menu menu-horizontal space-x-5 font-medium">
                   {/* Navbar menu content here */}
                  {menus}
                 </ul>
@@ -64,9 +102,12 @@ const Navbar = () => {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu p-4 w-80 min-h-full bg-neutral">
+          <ul className="menu p-4 w-1/2 min-h-full bg-neutral">
             {/* Sidebar content here */}
+            <div className="w-1/2">
             {menus}
+            </div>
+           
           </ul>
         </div>
       </div>
