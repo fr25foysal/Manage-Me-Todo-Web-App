@@ -3,10 +3,13 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import useProvider from "../../Hooks/useProvider"
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     const {createUser, updateUser} = useProvider()
     const [errMsg, setErrMsg] = useState('')
+    const navigate = useNavigate()
     const handleSignUp= e=>{
        
         e.preventDefault()
@@ -30,7 +33,8 @@ const SignUp = () => {
             .then(u=>{
                 updateUser(name,a.data.data.display_url)
                 .then(c=>{
-                    console.log(c);
+                    toast.success('User Created!')
+                    navigate('/tasks')
                 })
                 .catch(d=>{
                     setErrMsg(e.message)

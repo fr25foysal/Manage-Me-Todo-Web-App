@@ -2,18 +2,23 @@ import BoxContainer from "../../Components/Container/BoxContainer";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import useProvider from "../../Hooks/useProvider";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
     const {SignInUser,user} = useProvider()
+    const navigate = useNavigate()
     const [errMsg, setErrMsg] = useState('')
     const handleSignIn= e=>{
         e.preventDefault()
+        setErrMsg('')
         const form = e.target
         const email = form.email.value
         const password = form.password.value
         SignInUser(email,password)
         .then(()=>{
-
+            toast.success('User logged In!')
+            navigate('/tasks')
         })
         .catch(e=>{
             setErrMsg(e.message)

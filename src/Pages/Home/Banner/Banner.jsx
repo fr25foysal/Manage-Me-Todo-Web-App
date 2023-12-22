@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import useProvider from "../../../Hooks/useProvider";
 
 const Banner = () => {
+    const {user} = useProvider()
     return (
         <div className="relative md:h-[500px] h-[400px] bg-[#ffecec] overflow-hidden px-6 font-[sans-serif]">
         <div className="absolute -top-6 -left-6 w-20 h-20 rounded-full bg-neutral"></div>
@@ -12,7 +14,7 @@ const Banner = () => {
                 <h2 className="text-6xl max-sm:text-3xl font-extrabold mb-4">Empower Your Productivity with <br></br> <span className="text-accent">Manage</span><span className="text-neutral">Me</span></h2>
                 <div className="mt-8">
                     <p className="text-sm text-gray-400">Streamline Tasks, Boost Efficiency, and Stay Organized in Style</p>
-                    <Link to={'/sign-in'}><button className="btn rounded-md mt-5 btn-neutral text-">{"Let's Explore"}</button></Link>
+                    <Link  to={user? "/tasks" : "/sign-in"}><button className="btn rounded-md mt-5 btn-neutral text-">{"Let's Explore"}</button></Link>
                     {/* <ul className="flex items-center justify-center mt-4 space-x-4">
                         <li className="bg-[#e6e6e6cf] h-10 w-10 rounded-full flex items-center justify-center shrink-0">
                             <a href="javascript:void(0)">

@@ -1,6 +1,15 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
+import useProvider from "../../Hooks/useProvider";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const {user,logOut} = useProvider()
+  const handleLogOut=()=>{
+    logOut()
+    .then(()=>{
+      toast.success('User Logged Out!')
+    })
+  }
   
   const menus = (
     <>
@@ -8,7 +17,11 @@ const Navbar = () => {
         <NavLink
           to={"/"}
           className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "text-neutral scale-150 border-b-2 border-neutral" : ""
+            isPending
+              ? "pending"
+              : isActive
+              ? " scale-150 border-b-2 border-neutral"
+              : ""
           }
         >
           Home
@@ -18,7 +31,11 @@ const Navbar = () => {
         <NavLink
           to={"/tasks"}
           className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "text-neutral scale-150 border-b-2 border-neutral" : ""
+            isPending
+              ? "pending"
+              : isActive
+              ? " scale-150 border-b-2 border-neutral"
+              : ""
           }
         >
           Tasks
@@ -28,7 +45,11 @@ const Navbar = () => {
         <NavLink
           to={"/calender"}
           className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "text-neutral scale-150 border-b-2 border-neutral" : ""
+            isPending
+              ? "pending"
+              : isActive
+              ? " scale-150 border-b-2 border-neutral"
+              : ""
           }
         >
           Calender
@@ -38,20 +59,26 @@ const Navbar = () => {
         <NavLink
           to={"/projects"}
           className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "text-neutral scale-150 border-b-2 border-neutral" : ""
+            isPending
+              ? "pending"
+              : isActive
+              ? " scale-150 border-b-2 border-neutral"
+              : ""
           }
         >
           Projects
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to={"/sign-in"}
-          className='bg-neutral rounded-md'
-        >
-          Sign In
-        </NavLink>
-      </li>
+
+      {user ? (
+        <li onClick={handleLogOut} className="bg-neutral btn rounded-md">Sign Out</li>
+      ) : (
+        <li>
+          <NavLink to={"/sign-in"} className="bg-neutral rounded-md">
+            Sign In
+          </NavLink>
+        </li>
+      )}
     </>
   );
     return (
@@ -85,7 +112,7 @@ const Navbar = () => {
               </div>
               <Link className="flex-1 px-2 mx-2">ManageMe</Link>
               <div className="flex-none hidden lg:block">
-                <ul className="menu menu-horizontal space-x-5 font-medium">
+                <ul className="menu menu-horizontal  space-x-5 font-medium">
                   {/* Navbar menu content here */}
                  {menus}
                 </ul>
