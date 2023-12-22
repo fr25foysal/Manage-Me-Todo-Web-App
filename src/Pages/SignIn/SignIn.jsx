@@ -1,17 +1,25 @@
 import BoxContainer from "../../Components/Container/BoxContainer";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import useProvider from "../../Hooks/useProvider";
+import { useState } from "react";
 
 const SignIn = () => {
+    const {SignInUser,user} = useProvider()
+    const [errMsg, setErrMsg] = useState('')
     const handleSignIn= e=>{
-       
         e.preventDefault()
         const form = e.target
         const email = form.email.value
         const password = form.password.value
+        SignInUser(email,password)
+        .then(()=>{
 
-        const info = {email,password}
-        console.log(info);
+        })
+        .catch(e=>{
+            setErrMsg(e.message)
+        })
 }
+console.log(user);
     return (
         <BoxContainer>
       <section className="h-screen">
@@ -49,14 +57,7 @@ const SignIn = () => {
                    <FaFacebookF className="mx-auto h-3.5 w-3.5" />
                   </button>
 
-                  {/* <button
-                    type="button"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                    className="mx-1 h-9 w-9 rounded-full bg-secondary uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                  >
-                   <FaGoogle className="mx-auto h-3.5 w-3.5" />
-                  </button> */}
+                 
                 </div>
 
                 <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -82,22 +83,24 @@ const SignIn = () => {
                     </label>
                 </div>
 
-                <div className="relative mb-6" data-te-input-wrapper-init>
+                <div className="relative mb-3" data-te-input-wrapper-init>
                 <input
                        type="password"
                        name="password"
-                      id="floating_email"
+                      id="floating_pass"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
                       placeholder=" "
                       required
                     />
                     <label
-                      htmlFor="floating_email"
+                      htmlFor="floating_pass"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                     Password
                     </label>
                 </div>
+
+                <p className="text-[#ff5858] text-center">{errMsg}</p>
 
                 <div className="mb-6 flex items-center justify-between">
                   <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">

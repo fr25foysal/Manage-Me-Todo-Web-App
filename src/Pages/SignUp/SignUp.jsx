@@ -1,18 +1,43 @@
 import BoxContainer from "../../Components/Container/BoxContainer";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import useProvider from "../../Hooks/useProvider"
+import axios from "axios";
+import { useState } from "react";
 
 const SignUp = () => {
+    const {createUser, updateUser} = useProvider()
+    const [errMsg, setErrMsg] = useState('')
     const handleSignUp= e=>{
        
         e.preventDefault()
         const form = e.target
         const name = form.name.value
         const email = form.email.value
+        const image = form.image.files
         const password1 = form.password1.value
-        const password2 = form.password2.value
+        // const password2 = form.password2.value
+        const imageFile = {image: image[0]}
 
-        const info = {name,email, password1,password2}
-        console.log(info);
+        axios.post(
+            `https://api.imgbb.com/1/upload?key=${
+              import.meta.env.VITE_IMGBB_KEY
+            }`,
+            imageFile,
+            { headers: { "content-type": "multipart/form-data" } }
+          )
+          .then(a=>{
+            createUser(email,password1)
+            .then(u=>{
+                updateUser(name,a.data.data.display_url)
+                .then(c=>{
+                    console.log(c);
+                })
+                .catch(d=>{
+                    setErrMsg(e.message)
+                })
+            })
+            
+          })
 }
     return (
       <BoxContainer>
@@ -58,24 +83,36 @@ const SignUp = () => {
                     </p>
                   </div>
 
-                  <div className="relative mb-6" data-te-input-wrapper-init>
+                  <div
+                    className="relative mb-6 flex gap-x-5"
+                    data-te-input-wrapper-init
+                  >
                     <input
                       type="text"
                       name="name"
-                      id="floating_email"
+                      id="floating_name"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
                       placeholder=" "
                       required
                     />
                     <label
-                      htmlFor="floating_email"
+                      htmlFor="floating_name"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Full Name
                     </label>
+
+                    <label htmlFor="profile_image" className="w-1/2 btn btn-secondary text-white">Upload Profile Image</label>
+                    <input
+                      type="file"
+                      name="image"
+                      id="profile_image"
+                      className="file-input file-input-bordered hidden file-input-secondary w-full max-w-xs"
+                    />
                   </div>
+
                   <div className="relative mb-6" data-te-input-wrapper-init>
-                  <input
+                    <input
                       type="email"
                       name="email"
                       id="floating_email"
@@ -91,38 +128,39 @@ const SignUp = () => {
                     </label>
                   </div>
 
-                  <div className="relative mb-6" data-te-input-wrapper-init>
-                  <input
-                       type="password"
-                       name="password1"
-                      id="floating_email"
+                  <div className="relative mb-3" data-te-input-wrapper-init>
+                    <input
+                      type="password"
+                      name="password1"
+                      id="floating_pass"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
                       placeholder=" "
                       required
                     />
                     <label
-                      htmlFor="floating_email"
+                      htmlFor="floating_pass"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Enter Password
                     </label>
                   </div>
-                  <div className="relative mb-6" data-te-input-wrapper-init>
-                  <input
-                       type="password"
-                       name="password2"
-                      id="floating_email"
+                  <p className="text-[#ff5858] mt-0 text-center">{errMsg}</p>
+                  {/* <div className="relative mb-6" data-te-input-wrapper-init>
+                    <input
+                      type="password"
+                      name="password2"
+                      id="floating_pass2"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
                       placeholder=" "
                       required
                     />
                     <label
-                      htmlFor="floating_email"
+                      htmlFor="floating_pass2"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Confirm Password
                     </label>
-                  </div>
+                  </div> */}
 
                   <div className="mb-6 flex items-center justify-between">
                     <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
