@@ -2,7 +2,7 @@ import axios from "axios";
 
 const usePublicAxios = () => {
     const data = axios.create({
-        baseURL: 'https://some-domain.com/api/',
+        baseURL: 'http://localhost:5001',
       });
     return data
 };
