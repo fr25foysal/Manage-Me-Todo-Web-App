@@ -4,6 +4,7 @@ import engineer from '../../assets/engineer.jpg'
 import developer from '../../assets/developer.jpg'
 import banker from '../../assets/banker.jpg'
 import manager from '../../assets/manager.jpg'
+import Footer from "../../Shared/Footer/Footer";
 
 const Home = () => {
     return (
@@ -32,6 +33,7 @@ const Home = () => {
             </div>
           </section>
         </BoxContainer>
+        <Footer></Footer>
       </div>
     );
 };
