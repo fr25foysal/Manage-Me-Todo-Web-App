@@ -4,7 +4,7 @@ import useProvider from "../../Hooks/useProvider"
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     const {createUser, updateUser} = useProvider()
@@ -194,17 +194,17 @@ const SignUp = () => {
                       data-te-ripple-init
                       data-te-ripple-color="light"
                     >
-                      Login
+                      Sign Up
                     </button>
 
                     <p className="mb-0 mt-2 pt-1 text-sm font-semibold text-center">
-                      {" Don't have an account?"}
-                      <a
-                        href="#!"
+                      {" Already have an account? "}
+                      <Link
+                        to={'/sign-in'}
                         className="text-secondary transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
                       >
-                        Register
-                      </a>
+                         Login
+                      </Link>
                     </p>
                   </div>
                 </form>

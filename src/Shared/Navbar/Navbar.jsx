@@ -1,12 +1,14 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import useProvider from "../../Hooks/useProvider";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
   const {user,logOut} = useProvider()
+  const navigate = useNavigate()
   const handleLogOut=()=>{
     logOut()
     .then(()=>{
+      navigate('/')
       toast.success('User Logged Out!')
     })
   }

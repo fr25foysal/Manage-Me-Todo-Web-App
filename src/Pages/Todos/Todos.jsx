@@ -11,19 +11,19 @@ const Todos = () => {
     const { data:todo_tasks ,isLoading} = useQuery({
         queryKey: ['todo'],
         queryFn: ()=>{
-            return usePublcAxio.get('/todo-tasks')
+            return usePublcAxio.get(`/todo-tasks?email=${user?.email}`)
         }
     })
     const { data:inprogress_tasks,isLoading:dataload } = useQuery({
         queryKey: ['inprogress'],
         queryFn: ()=>{
-            return usePublcAxio.get('/inprogress-tasks')
+            return usePublcAxio.get(`/inprogress-tasks?email=${user?.email}`)
         }
     })
     const { data:completed_tasks,isLoading: taskload } = useQuery({
         queryKey: ['completed'],
         queryFn: ()=>{
-            return usePublcAxio.get('/completed-tasks')
+            return usePublcAxio.get(`/completed-tasks?email=${user?.email}`)
         }
     })
 
@@ -35,14 +35,18 @@ console.log(user);
       <div className="mt-5">
         <BoxContainer>
           <div className="flex flex-col md:flex-row gap-5 ">
-            <div className="md:w-1/6 bg-gray-400 rounded-md p-5">
+            <div className="md:w-2/6 flex text-white bg-gray-400 rounded-md p-5">
               <div className="avatar">
-                <div className="w-24 rounded">
-                  <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                <div className="w-24 lg:w-32 rounded">
+                  <img src={user?.photoURL} />
                 </div>
               </div>
+              <div className='p-5'>
+              <h2 className='font-medium text-xl '>{user?.displayName}</h2>
+              </div>
+              
             </div>
-            <div className="md:w-5/6">
+            <div className="md:w-4/6">
               <AddTask></AddTask>
             </div>
           </div>

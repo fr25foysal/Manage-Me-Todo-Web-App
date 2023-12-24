@@ -3,7 +3,7 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import useProvider from "../../Hooks/useProvider";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
     const {SignInUser,user} = useProvider()
@@ -137,13 +137,14 @@ console.log(user);
                   </button>
 
                   <p className="mb-0 mt-2 pt-1 text-sm font-semibold text-center">
-                    {" Don't have an account?"}
-                    <a
-                      href="#!"
+                    {" Don't have an account? "}
+                    
+                    <Link
+                      to={'/sign-up'}
                       className="text-secondary transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
                     >
                       Register
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </form>
