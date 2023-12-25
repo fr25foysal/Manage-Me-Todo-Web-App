@@ -8,19 +8,19 @@ const Todos = () => {
     const usePublcAxio = usePublicAxios()
     const {user} = useProvider()
 
-    const { data:todo_tasks ,isLoading} = useQuery({
+    const { data:todo_tasks ,isLoading,refetch} = useQuery({
         queryKey: ['todo'],
         queryFn: ()=>{
             return usePublcAxio.get(`/todo-tasks?email=${user?.email}`)
         }
     })
-    const { data:inprogress_tasks,isLoading:dataload } = useQuery({
+    const { data:inprogress_tasks,isLoading:dataload, refetch:inprogressRefetch } = useQuery({
         queryKey: ['inprogress'],
         queryFn: ()=>{
             return usePublcAxio.get(`/inprogress-tasks?email=${user?.email}`)
         }
     })
-    const { data:completed_tasks,isLoading: taskload } = useQuery({
+    const { data:completed_tasks,isLoading: taskload,refetch:completedRefetch } = useQuery({
         queryKey: ['completed'],
         queryFn: ()=>{
             return usePublcAxio.get(`/completed-tasks?email=${user?.email}`)
@@ -30,7 +30,7 @@ const Todos = () => {
     if (isLoading,taskload,dataload) {
         return "";
     }
-console.log(user);
+
     return (
       <div className="mt-5">
         <BoxContainer>
@@ -47,7 +47,7 @@ console.log(user);
               
             </div>
             <div className="md:w-4/6">
-              <AddTask></AddTask>
+              <AddTask todoRefetch={refetch} inprogressRefetch={inprogressRefetch} completedRefetch={completedRefetch}></AddTask>
             </div>
           </div>
 
