@@ -7,8 +7,14 @@ const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    const createUser=(email,password) => createUserWithEmailAndPassword(auth,email,password)
-    const SignInUser = (email,password)=> signInWithEmailAndPassword(auth,email,password)
+    const createUser=(email,password) => {
+        setLoading(true)
+    return createUserWithEmailAndPassword(auth, email, password);
+    }
+    const SignInUser = (email,password)=>{
+        setLoading(true)
+        return signInWithEmailAndPassword(auth,email,password)
+    } 
     
     const updateUser = (name,photo)=>{
         return updateProfile(auth.currentUser,{
@@ -26,7 +32,6 @@ const AuthProvider = ({children}) => {
 
      // Log out user 
      const logOut =()=>{
-        localStorage.removeItem('access-token')
         return signOut(auth)
     }
 
