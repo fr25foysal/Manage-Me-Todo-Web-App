@@ -1,12 +1,12 @@
 import BoxContainer from "../../Components/Container/BoxContainer";
-import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import useProvider from "../../Hooks/useProvider";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-    const {SignInUser,user,googleLogin} = useProvider()
+    const {SignInUser,user,googleLogin,githubLogin} = useProvider()
     const navigate = useNavigate()
     const [errMsg, setErrMsg] = useState('')
     const handleSignIn= e=>{
@@ -27,6 +27,17 @@ const SignIn = () => {
 
 const handleGoogleLogin=()=>{
   googleLogin()
+  .then((e)=>{
+    toast.success("Sign Up Succesful")
+    navigate('/')
+  })
+  .catch(e=>{
+    setErrMsg(e.message)
+  })
+}
+
+const handleGithubLogin=()=>{
+  githubLogin()
   .then((e)=>{
     toast.success("Sign Up Succesful")
     navigate('/')
@@ -67,14 +78,14 @@ const handleGoogleLogin=()=>{
                   </button>
 
                   <button
+                  onClick={handleGithubLogin}
                     type="button"
                     data-te-ripple-init
                     data-te-ripple-color="light"
                     className="mx-1 h-9 w-9 rounded-full bg-secondary uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                   >
-                   <FaFacebookF className="mx-auto h-3.5 w-3.5" />
+                   <FaGithub className="mx-auto h-3.5 w-3.5" />
                   </button>
-
                  
                 </div>
 
