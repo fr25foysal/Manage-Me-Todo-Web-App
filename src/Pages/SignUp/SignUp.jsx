@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-    const {createUser, updateUser} = useProvider()
+    const {createUser, updateUser,googleLogin} = useProvider()
     const [errMsg, setErrMsg] = useState('')
     const navigate = useNavigate()
     const handleSignUp= e=>{
@@ -43,6 +43,16 @@ const SignUp = () => {
             
           })
 }
+const handleGoogleLogin=()=>{
+  googleLogin()
+  .then((e)=>{
+    toast.success("Sign Up Succesful")
+    navigate('/')
+  })
+  .catch(e=>{
+    setErrMsg(e.message)
+  })
+}
     return (
       <BoxContainer>
         <section className="h-screen">
@@ -54,6 +64,7 @@ const SignUp = () => {
                     <p className="mb-0 mr-4 text-lg">Sign in with</p>
 
                     <button
+                    onClick={handleGoogleLogin}
                       type="button"
                       data-te-ripple-init
                       data-te-ripple-color="light"
