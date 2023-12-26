@@ -3,6 +3,9 @@ import BoxContainer from '../../Components/Container/BoxContainer'
 import AddTask from '../../Pages/Todos/AddTask'
 import usePublicAxios from '../../Hooks/usePublicAxios';
 import useProvider from '../../Hooks/useProvider';
+import { FaMinusCircle } from 'react-icons/fa';
+import { RiEditCircleFill } from "react-icons/ri";
+import toast from 'react-hot-toast';
 
 const Todos = () => {
     const usePublcAxio = usePublicAxios()
@@ -27,6 +30,22 @@ const Todos = () => {
         }
     })
 
+    const handleDeleteTask = (id) =>{
+      usePublcAxio.delete(`/task-delete/${id}`)
+      .then((e)=>{
+        if (e.data.deletedCount>0) {
+          toast.success("Task Deleted!")
+          refetch()
+          inprogressRefetch()
+          completedRefetch()
+        }
+        console.log(e.data)
+      })
+      .catch((e)=>{
+        console.error(e.message);
+      })
+    }
+
     if (isLoading,taskload,dataload) {
         return "";
     }
@@ -36,18 +55,23 @@ const Todos = () => {
         <BoxContainer>
           <div className="flex flex-col md:flex-row gap-5 ">
             <div className="md:w-2/6 flex text-white bg-gray-400 rounded-md p-5">
-              <div className="avatar">
+              <div className="avatar bg-accent rounded-md p-2">
                 <div className="w-24 lg:w-32 rounded">
                   <img src={user?.photoURL} />
                 </div>
               </div>
-              <div className='p-5'>
-              <h2 className='font-medium text-xl '>{user?.displayName}</h2>
+              <div className="p-5">
+                <h2 className="font-medium text-xl bg-secondary px-4 py-2 rounded-md">
+                  {user?.displayName}
+                </h2>
               </div>
-              
             </div>
             <div className="md:w-4/6">
-              <AddTask todoRefetch={refetch} inprogressRefetch={inprogressRefetch} completedRefetch={completedRefetch}></AddTask>
+              <AddTask
+                todoRefetch={refetch}
+                inprogressRefetch={inprogressRefetch}
+                completedRefetch={completedRefetch}
+              ></AddTask>
             </div>
           </div>
 
@@ -59,7 +83,7 @@ const Todos = () => {
 
               {todo_tasks?.data?.map((task) => (
                 <div
-                  className="bg-gray-100 rounded-md p-2 mt-2 text-left font-medium "
+                  className="bg-gray-100 relative rounded-md p-2 mt-2 text-left font-medium "
                   key={task}
                 >
                   <div className="flex gap-5">
@@ -69,9 +93,19 @@ const Todos = () => {
                       {task.Priority}
                     </p>
                   </div>
-
-                  <p className="text-sm">{task.Description}</p>
-                  <p className="text-sm">Deadline: {task.Deadline}</p>
+                  <div>
+                    <p className="text-sm">{task.Description}</p>
+                    <p className="text-sm">Deadline: {task.Deadline}</p>
+                  </div>
+                  <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
+                    <button>
+                      <RiEditCircleFill />
+                    </button>
+                    <br />
+                    <button onClick={()=>handleDeleteTask(task._id)}>
+                      <FaMinusCircle />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -82,7 +116,7 @@ const Todos = () => {
 
               {inprogress_tasks?.data?.map((task) => (
                 <div
-                  className="bg-gray-100 rounded-md p-2 mt-2 text-left font-medium "
+                  className="bg-gray-100 relative rounded-md p-2 mt-2 text-left font-medium "
                   key={task}
                 >
                   <div className="flex gap-5">
@@ -92,14 +126,25 @@ const Todos = () => {
                       {task.Priority}
                     </p>
                   </div>
+                  <div>
+                    <p className="text-sm">{task.Description}</p>
+                    <p className="text-sm">Deadline: {task.Deadline}</p>
+                  </div>
 
-                  <p className="text-sm">{task.Description}</p>
-                  <p className="text-sm">Deadline: {task.Deadline}</p>
+                  <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
+                    <button>
+                      <RiEditCircleFill />
+                    </button>
+                    <br />
+                    <button onClick={handleDeleteTask(task._id)}>
+                      <FaMinusCircle />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
             <div className="bg-secondary p-5 rounded-md min-h-64">
-              <h2 className="bg-gray-100 rounded-md p-2 text-center font-medium text-lg">
+              <h2 className="bg-gray-100 relative rounded-md p-2 text-center font-medium text-lg">
                 Completed
               </h2>
 
@@ -115,9 +160,20 @@ const Todos = () => {
                       {task.Priority}
                     </p>
                   </div>
+                  <div>
+                    <p className="text-sm">{task.Description}</p>
+                    <p className="text-sm">Deadline: {task.Deadline}</p>
+                  </div>
 
-                  <p className="text-sm">{task.Description}</p>
-                  <p className="text-sm">Deadline: {task.Deadline}</p>
+                  <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
+                    <button>
+                      <RiEditCircleFill />
+                    </button>
+                    <br />
+                    <button onClick={handleDeleteTask(task._id)}>
+                      <FaMinusCircle />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

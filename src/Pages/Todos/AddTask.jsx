@@ -19,7 +19,7 @@ export default function App({todoRefetch}) {
       .then((d) => {
         if (d.data.insertedId) {
           reset();
-          refetch()
+          todoRefetch()
           toast.success("Task Added!");
         }
       })
