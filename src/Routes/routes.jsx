@@ -7,6 +7,7 @@ import SignUp from "../Pages/SignUp/signUp";
 import Projects from "../Pages/Projects/projects";
 import Calender from "../Pages/Calendar/calender";
 import PrivateRoute from "./PrivateRoute";
+import EditTodos from "../Pages/Todos/EditTodos";
 
 const routes = createBrowserRouter([
     {
@@ -20,6 +21,11 @@ const routes = createBrowserRouter([
             {
                 path: '/tasks',
                 element:<PrivateRoute><Todos></Todos></PrivateRoute> 
+            },
+            
+            {
+                path: '/edit-todos/:id',
+                element:<PrivateRoute><EditTodos></EditTodos></PrivateRoute> 
             },
             {
                 path: '/calender',

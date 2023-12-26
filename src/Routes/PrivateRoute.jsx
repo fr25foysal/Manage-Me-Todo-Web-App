@@ -3,7 +3,6 @@ import useProvider from "../Hooks/useProvider";
 
 const PrivateRoute = ({children}) => {
     const {loading,user} = useProvider()
-    console.log(user,loading);
     
     if (loading) {
         return <div className="grid justify-center min-h-screen content-center"><span className="loading loading-dots loading-lg"></span></div>

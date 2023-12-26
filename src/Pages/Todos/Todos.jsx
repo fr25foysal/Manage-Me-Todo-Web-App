@@ -6,10 +6,13 @@ import useProvider from '../../Hooks/useProvider';
 import { FaMinusCircle } from 'react-icons/fa';
 import { RiEditCircleFill } from "react-icons/ri";
 import toast from 'react-hot-toast';
+import EditTodos from './EditTodos';
+import { useNavigate } from 'react-router-dom';
 
 const Todos = () => {
     const usePublcAxio = usePublicAxios()
     const {user} = useProvider()
+    const navigate = useNavigate()
 
     const { data:todo_tasks ,isLoading,refetch} = useQuery({
         queryKey: ['todo'],
@@ -83,7 +86,7 @@ const Todos = () => {
 
               {todo_tasks?.data?.map((task) => (
                 <div
-                  className="bg-gray-100 relative rounded-md p-2 mt-2 text-left font-medium "
+                  className="bg-gray-100 relative rounded-md min-h-20 p-2 mt-2 text-left font-medium "
                   key={task}
                 >
                   <div className="flex gap-5">
@@ -99,7 +102,8 @@ const Todos = () => {
                   </div>
                   <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
                     <button>
-                      <RiEditCircleFill />
+                      <RiEditCircleFill onClick={()=>navigate(`/edit-todos/${task._id}`)} />
+                     
                     </button>
                     <br />
                     <button onClick={()=>handleDeleteTask(task._id)}>
@@ -116,7 +120,7 @@ const Todos = () => {
 
               {inprogress_tasks?.data?.map((task) => (
                 <div
-                  className="bg-gray-100 relative rounded-md p-2 mt-2 text-left font-medium "
+                  className="bg-gray-100  min-h-20 relative rounded-md p-2 mt-2 text-left font-medium "
                   key={task}
                 >
                   <div className="flex gap-5">
@@ -133,7 +137,8 @@ const Todos = () => {
 
                   <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
                     <button>
-                      <RiEditCircleFill />
+                      <RiEditCircleFill onClick={()=>document.getElementById('my_modal_3').showModal()} />
+                      <EditTodos></EditTodos>
                     </button>
                     <br />
                     <button onClick={handleDeleteTask(task._id)}>
@@ -150,7 +155,7 @@ const Todos = () => {
 
               {completed_tasks?.data?.map((task) => (
                 <div
-                  className="bg-gray-100 rounded-md p-2 mt-2 text-left font-medium "
+                  className="bg-gray-100  min-h-20 rounded-md p-2 mt-2 text-left font-medium "
                   key={task}
                 >
                   <div className="flex gap-5">
@@ -167,7 +172,8 @@ const Todos = () => {
 
                   <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
                     <button>
-                      <RiEditCircleFill />
+                      <RiEditCircleFill onClick={()=>document.getElementById('my_modal_3').showModal()} />
+                      <EditTodos></EditTodos>
                     </button>
                     <br />
                     <button onClick={handleDeleteTask(task._id)}>
