@@ -6,7 +6,7 @@ import useProvider from '../../Hooks/useProvider';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider, useDrop } from 'react-dnd';
 import SingleTaskCard from './SingleTaskCard';
-
+import { motion } from 'framer-motion';
 const Todos = () => {
     const usePublcAxio = usePublicAxios()
     const {user} = useProvider()
@@ -20,7 +20,7 @@ const Todos = () => {
         })
       })
     )
-    
+
     const dropedTask=({id})=>{
       console.log(id,"status:",status)
     }
@@ -91,13 +91,32 @@ export default Todos;
 
 // const allTaskStatus = ["to-do", "inprogress", "completed"]
 const TaskSection = ({taskDataName,statusText,refetch,bgColor, status})=>{
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  
+
+
   return (
     <div className={` ${bgColor} p-5 rounded-md min-h-64`} >
       <h2 className="bg-gray-100 rounded-md p-2 text-center font-medium text-lg">
        {statusText}
       </h2>
 
-      <section>
+      <motion.section 
+       variants={container}
+    initial="hidden"
+    animate="visible"
+      >
         {taskDataName?.data?.map((task, index) => (
           <SingleTaskCard
             key={task._id}
@@ -109,7 +128,7 @@ const TaskSection = ({taskDataName,statusText,refetch,bgColor, status})=>{
             // completedRefetch={completedRefetch}
           ></SingleTaskCard>
         ))}
-      </section>
+      </motion.section>
     </div>
   );
 }

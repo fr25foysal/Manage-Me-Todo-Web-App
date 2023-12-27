@@ -1,21 +1,40 @@
 import { Link } from "react-router-dom";
 import useProvider from "../../../Hooks/useProvider";
+import { motion } from "framer-motion";
 
 const Banner = () => {
     const {user} = useProvider()
     return (
-        <div className="relative md:h-[500px] h-[400px] bg-[#ffecec] overflow-hidden px-6 font-[sans-serif]">
+      <div className="relative md:h-[500px] h-[400px] bg-[#ffecec] overflow-hidden px-6 font-[sans-serif]">
         <div className="absolute -top-6 -left-6 w-20 h-20 rounded-full bg-neutral"></div>
         <div className="absolute -bottom-6 -left-0 w-24 h-20 rounded-tr-[40px] bg-secondary"></div>
         <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-accent"></div>
         <div className="absolute -bottom-6 -right-0 w-24 h-20 rounded-tl-[40px] bg-primary"></div>
         <div className="grid items-center h-full">
-            <div className="text-center">
-                <h2 className="text-6xl max-sm:text-3xl font-extrabold mb-4">Empower Your Productivity with <br></br> <span className="text-accent">Manage</span><span className="text-neutral">Me</span></h2>
-                <div className="mt-8">
-                    <p className="text-sm text-gray-400">Streamline Tasks, Boost Efficiency, and Stay Organized in Style</p>
-                    <Link  to={user? "/tasks" : "/sign-in"}><button className="btn rounded-md mt-5 btn-neutral text-">{"Let's Explore"}</button></Link>
-                    {/* <ul className="flex items-center justify-center mt-4 space-x-4">
+          <div className="text-center">
+            <h2 className="text-6xl max-sm:text-3xl font-extrabold mb-4">
+              Empower Your Productivity with <br></br>{" "}
+              <span className="text-accent">Manage</span>
+              <span className="text-neutral">Me</span>
+            </h2>
+            <div className="mt-8">
+              <p className="text-sm text-gray-400">
+                Streamline Tasks, Boost Efficiency, and Stay Organized in Style
+              </p>
+              <Link to={user ? "/tasks" : "/sign-in"}>
+                <motion.div  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{
+    type: "spring",
+    stiffness: 260,
+    damping: 20
+  }}>
+                  <button className="btn rounded-md mt-5 btn-neutral text-">
+                    {"Let's Explore"}
+                  </button>
+                </motion.div>
+              </Link>
+              {/* <ul className="flex items-center justify-center mt-4 space-x-4">
                         <li className="bg-[#e6e6e6cf] h-10 w-10 rounded-full flex items-center justify-center shrink-0">
                             <a href="javascript:void(0)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill='#007bff'
@@ -37,10 +56,10 @@ const Banner = () => {
                             </a>
                         </li>
                     </ul> */}
-                </div>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
     );
 };
 

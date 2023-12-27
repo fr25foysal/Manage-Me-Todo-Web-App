@@ -4,12 +4,18 @@ import { RiEditCircleFill } from "react-icons/ri";
 import usePublicAxios from "../../Hooks/usePublicAxios";
 import { useNavigate } from "react-router-dom";
 import { useDrag } from "react-dnd";
-
+import {motion } from 'framer-motion'
 const SingleTaskCard = ({task,refetch,inprogressRefetch,completedRefetch,index}) => {
     
     const usePublcAxio = usePublicAxios()
 
-    
+    const item = {
+      hidden: { y: 20, opacity: 0 },
+      visible: {
+        y: 0,
+        opacity: 1
+      }
+    };
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "task",
@@ -37,7 +43,7 @@ const SingleTaskCard = ({task,refetch,inprogressRefetch,completedRefetch,index})
       }
 
     return (
-      <div ref={drag} className="bg-gray-100 relative rounded-md min-h-20 p-2 mt-2 text-left font-medium ">
+      <motion.div variants={item} ref={drag} className="bg-gray-100 relative rounded-md min-h-20 p-2 mt-2 text-left font-medium ">
         <div className="flex gap-5">
           {/* TODO: make the priority color responsive , if high another ,if low another */}
           <h2>{task.Title}</h2>{" "}
@@ -60,7 +66,7 @@ const SingleTaskCard = ({task,refetch,inprogressRefetch,completedRefetch,index})
             <FaMinusCircle />
           </button>
         </div>
-      </div>
+      </motion.div>
     );
 };
 

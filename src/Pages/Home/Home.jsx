@@ -5,8 +5,28 @@ import developer from '../../assets/developer.jpg'
 import banker from '../../assets/banker.jpg'
 import manager from '../../assets/manager.jpg'
 import Footer from "../../Shared/Footer/Footer";
-
+import {motion} from 'framer-motion'
 const Home = () => {
+
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
+  
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
     return (
       <div>
         <Banner></Banner>
@@ -25,12 +45,41 @@ const Home = () => {
                 efficiency through our application.
               </p>
             </div>
-            <div className="grid grid-cols-4 gap-5 py-5">
-              <img className="h-52 w-full object-cover" src={engineer} alt="" />
-              <img className="h-52 w-full object-cover" src={banker} alt="" />
-              <img className="h-52 w-full object-cover" src={developer} alt="" />
-              <img className="h-52 w-full object-cover" src={manager} alt="" />
-            </div>
+            <motion.ul
+              variants={container}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-4 gap-5 py-5"
+            >
+              <motion.img
+                className="h-52 w-full object-cover"
+                key={"1"}
+                variants={item}
+                src={engineer}
+                alt=""
+              />
+              <motion.img
+                className="h-52 w-full object-cover"
+                key={"2"}
+                variants={item}
+                src={banker}
+                alt=""
+              />
+              <motion.img
+                className="h-52 w-full object-cover"
+                key={"3"}
+                variants={item}
+                src={developer}
+                alt=""
+              />
+              <motion.img
+                className="h-52 w-full object-cover"
+                key={"4"}
+                variants={item}
+                src={manager}
+                alt=""
+              />
+            </motion.ul>
           </section>
         </BoxContainer>
         <Footer></Footer>
