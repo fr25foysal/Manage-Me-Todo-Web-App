@@ -1,8 +1,29 @@
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import useProvider from "../../Hooks/useProvider";
 import toast from "react-hot-toast";
-
+import { motion } from "framer-motion";
 const Navbar = () => {
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
+
+
   const {user,logOut} = useProvider()
   const navigate = useNavigate()
   const handleLogOut=()=>{
@@ -15,7 +36,7 @@ const Navbar = () => {
   
   const menus = (
     <>
-      <li>
+      <motion.li variants={item}>
         <NavLink
           to={"/"}
           className={({ isActive, isPending }) =>
@@ -28,8 +49,8 @@ const Navbar = () => {
         >
           Home
         </NavLink>
-      </li>
-      <li>
+      </motion.li>
+      <motion.li variants={item}>
         <NavLink
           to={"/tasks"}
           className={({ isActive, isPending }) =>
@@ -42,8 +63,8 @@ const Navbar = () => {
         >
           Tasks
         </NavLink>
-      </li>
-      <li>
+      </motion.li>
+      <motion.li variants={item}>
         <NavLink
           to={"/calender"}
           className={({ isActive, isPending }) =>
@@ -56,8 +77,8 @@ const Navbar = () => {
         >
           Calender
         </NavLink>
-      </li>
-      <li>
+      </motion.li>
+      <motion.li variants={item}>
         <NavLink
           to={"/projects"}
           className={({ isActive, isPending }) =>
@@ -70,16 +91,28 @@ const Navbar = () => {
         >
           Projects
         </NavLink>
-      </li>
+      </motion.li>
 
       {user ? (
-        <li onClick={handleLogOut} className="bg-neutral btn rounded-md">Sign Out</li>
+        <motion.li initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 20
+        }} onClick={handleLogOut} className="bg-neutral btn rounded-md">Sign Out</motion.li>
       ) : (
-        <li>
+        <motion.li initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 20
+        }}>
           <NavLink to={"/sign-in"} className="bg-neutral rounded-md">
             Sign In
           </NavLink>
-        </li>
+        </motion.li>
       )}
     </>
   );
@@ -114,10 +147,12 @@ const Navbar = () => {
               </div>
               <Link className="flex-1 px-2 mx-2">ManageMe</Link>
               <div className="flex-none hidden lg:block">
-                <ul className="menu menu-horizontal  space-x-5 font-medium">
+                <motion.ul variants={container}
+    initial="hidden"
+    animate="visible" className="menu menu-horizontal  space-x-5 font-medium">
                   {/* Navbar menu content here */}
                  {menus}
-                </ul>
+                </motion.ul>
               </div>
             </div>
             </div>
