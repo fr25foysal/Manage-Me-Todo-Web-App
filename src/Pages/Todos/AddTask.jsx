@@ -35,7 +35,7 @@ export default function App({todoRefetch}) {
           type="text"
           placeholder="Title"
           className="input input-bordered w-full max-w-lg focus:border-0 outline-0 border-secondary"
-          {...register("Title", { required: true, min: 2, maxLength: 15 })}
+          {...register("Title", { required: true, min: 2, maxLength: 45 })}
         />
         <input
           type="text"

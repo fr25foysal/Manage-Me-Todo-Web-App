@@ -1,5 +1,5 @@
 import BoxContainer from "../../Components/Container/BoxContainer";
-import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import useProvider from "../../Hooks/useProvider"
 import axios from "axios";
 import { useState } from "react";
@@ -20,7 +20,7 @@ const SignUp = () => {
         const password1 = form.password1.value
         // const password2 = form.password2.value
         const imageFile = {image: image[0]}
-
+        const toastId = toast.loading('Creating Account...');
         axios.post(
             `https://api.imgbb.com/1/upload?key=${
               import.meta.env.VITE_IMGBB_KEY
@@ -33,6 +33,7 @@ const SignUp = () => {
             .then(u=>{
                 updateUser(name,a.data.data.display_url)
                 .then(c=>{
+                  toast.dismiss(toastId);
                     toast.success('User Created!')
                     navigate('/tasks')
                 })

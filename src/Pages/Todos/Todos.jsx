@@ -3,16 +3,27 @@ import BoxContainer from '../../Components/Container/BoxContainer'
 import AddTask from '../../Pages/Todos/AddTask'
 import usePublicAxios from '../../Hooks/usePublicAxios';
 import useProvider from '../../Hooks/useProvider';
-import { FaMinusCircle } from 'react-icons/fa';
-import { RiEditCircleFill } from "react-icons/ri";
-import toast from 'react-hot-toast';
-import EditTodos from './EditTodos';
-import { useNavigate } from 'react-router-dom';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider, useDrop } from 'react-dnd';
+import SingleTaskCard from './SingleTaskCard';
 
 const Todos = () => {
     const usePublcAxio = usePublicAxios()
     const {user} = useProvider()
-    const navigate = useNavigate()
+
+    const [{ isOver }, drop] = useDrop(
+      () => ({
+        accept: "task",
+        drop: (item) => dropedTask(item),
+        collect: (monitor) => ({
+          isOver: !!monitor.isOver()
+        })
+      })
+    )
+    
+    const dropedTask=({id})=>{
+      console.log(id,"status:",status)
+    }
 
     const { data:todo_tasks ,isLoading,refetch} = useQuery({
         queryKey: ['todo'],
@@ -33,21 +44,7 @@ const Todos = () => {
         }
     })
 
-    const handleDeleteTask = (id) =>{
-      usePublcAxio.delete(`/task-delete/${id}`)
-      .then((e)=>{
-        if (e.data.deletedCount>0) {
-          toast.success("Task Deleted!")
-          refetch()
-          inprogressRefetch()
-          completedRefetch()
-        }
-        console.log(e.data)
-      })
-      .catch((e)=>{
-        console.error(e.message);
-      })
-    }
+    
 
     if (isLoading,taskload,dataload) {
         return "";
@@ -77,112 +74,13 @@ const Todos = () => {
               ></AddTask>
             </div>
           </div>
-
-          <div className="grid lg:grid-cols-3 gap-8 mt-5 ">
-            <div className="bg-accent p-5 rounded-md min-h-64">
-              <h2 className="bg-gray-100 rounded-md p-2 text-center font-medium text-lg">
-                To-dos
-              </h2>
-
-              {todo_tasks?.data?.map((task) => (
-                <div
-                  className="bg-gray-100 relative rounded-md min-h-20 p-2 mt-2 text-left font-medium "
-                  key={task}
-                >
-                  <div className="flex gap-5">
-                    {/* TODO: make the priority color responsive , if high another ,if low another */}
-                    <h2>{task.Title}</h2>{" "}
-                    <p className="text-[12px] bg-secondary px-2 py-[2px] rounded-md ">
-                      {task.Priority}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm">{task.Description}</p>
-                    <p className="text-sm">Deadline: {task.Deadline}</p>
-                  </div>
-                  <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
-                    <button>
-                      <RiEditCircleFill onClick={()=>navigate(`/edit-todos/${task._id}`)} />
-                     
-                    </button>
-                    <br />
-                    <button onClick={()=>handleDeleteTask(task._id)}>
-                      <FaMinusCircle />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="bg-neutral p-5 rounded-md min-h-64">
-              <h2 className="bg-gray-100 rounded-md p-2 text-center font-medium text-lg">
-                In progress
-              </h2>
-
-              {inprogress_tasks?.data?.map((task) => (
-                <div
-                  className="bg-gray-100  min-h-20 relative rounded-md p-2 mt-2 text-left font-medium "
-                  key={task}
-                >
-                  <div className="flex gap-5">
-                    {/* TODO: make the priority color responsive , if high another ,if low another */}
-                    <h2>{task.Title}</h2>{" "}
-                    <p className="text-[12px] bg-secondary px-2 py-[2px] rounded-md ">
-                      {task.Priority}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm">{task.Description}</p>
-                    <p className="text-sm">Deadline: {task.Deadline}</p>
-                  </div>
-
-                  <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
-                    <button>
-                      <RiEditCircleFill onClick={()=>document.getElementById('my_modal_3').showModal()} />
-                      <EditTodos></EditTodos>
-                    </button>
-                    <br />
-                    <button onClick={handleDeleteTask(task._id)}>
-                      <FaMinusCircle />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="bg-secondary p-5 rounded-md min-h-64">
-              <h2 className="bg-gray-100 relative rounded-md p-2 text-center font-medium text-lg">
-                Completed
-              </h2>
-
-              {completed_tasks?.data?.map((task) => (
-                <div
-                  className="bg-gray-100  min-h-20 rounded-md p-2 mt-2 text-left font-medium "
-                  key={task}
-                >
-                  <div className="flex gap-5">
-                    {/* TODO: make the priority color responsive , if high another ,if low another */}
-                    <h2>{task.Title}</h2>{" "}
-                    <p className="text-[12px] bg-secondary px-2 py-[2px] rounded-md ">
-                      {task.Priority}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm">{task.Description}</p>
-                    <p className="text-sm">Deadline: {task.Deadline}</p>
-                  </div>
-
-                  <div className="text-xl text-secondary absolute right-4 top-3 space-y-2">
-                    <button>
-                      <RiEditCircleFill onClick={()=>document.getElementById('my_modal_3').showModal()} />
-                      <EditTodos></EditTodos>
-                    </button>
-                    <br />
-                    <button onClick={handleDeleteTask(task._id)}>
-                      <FaMinusCircle />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+        
+          <div ref={drop} className="grid lg:grid-cols-3 gap-8 mt-5 ">
+            <TaskSection bgColor={"bg-accent"} status={"to-do"} statusText={"To-Do"} taskDataName={todo_tasks} refetch={refetch}></TaskSection>
+            
+            <TaskSection bgColor={"bg-neutral"} status={"inprogress"} statusText={"In Progress"} taskDataName={inprogress_tasks} refetch={inprogressRefetch}></TaskSection>
+            <TaskSection bgColor={"bg-secondary"} status={"completed"} statusText={"Completed"} taskDataName={completed_tasks} refetch={completedRefetch}></TaskSection>
+            
           </div>
         </BoxContainer>
       </div>
@@ -190,3 +88,28 @@ const Todos = () => {
 };
 
 export default Todos;
+
+// const allTaskStatus = ["to-do", "inprogress", "completed"]
+const TaskSection = ({taskDataName,statusText,refetch,bgColor, status})=>{
+  return (
+    <div className={` ${bgColor} p-5 rounded-md min-h-64`} >
+      <h2 className="bg-gray-100 rounded-md p-2 text-center font-medium text-lg">
+       {statusText}
+      </h2>
+
+      <section>
+        {taskDataName?.data?.map((task, index) => (
+          <SingleTaskCard
+            key={task._id}
+            index={index}
+            status={status}
+            task={task}
+            refetch={refetch}
+            // inprogressRefetch={inprogressRefetch}
+            // completedRefetch={completedRefetch}
+          ></SingleTaskCard>
+        ))}
+      </section>
+    </div>
+  );
+}
